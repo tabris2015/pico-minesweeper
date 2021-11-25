@@ -28,5 +28,5 @@ int main() {
             motor1.write(-i);
             sleep_ms(20);
         }
-	}
+    }
 }
