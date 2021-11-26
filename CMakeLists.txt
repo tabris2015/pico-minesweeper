@@ -10,7 +10,10 @@ pico_sdk_init()
 add_executable(${PROJECT_NAME} main.cpp
         include/motor_bts7960.h
         src/motor_bts7960.cpp
-        include/pins.h)
+        include/pins.h
+        src/minesweeper.cpp
+        include/minesweeper.h
+        )
 
 target_include_directories(${PROJECT_NAME} PRIVATE include)
 
