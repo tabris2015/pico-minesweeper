@@ -9,7 +9,7 @@
 #include <cmath>
 #include "hardware/pwm.h"
 
-#define TOP 4095
+#define TOP 6143    // aprox. 20.3KHz
 
 class MotorBts7960 {
 public:
