@@ -5,35 +5,35 @@
 #include "motor_bts7960.h"
 
 MotorBts7960::MotorBts7960(uint lpwm_pin, uint rpwm_pin)
-: _lpwm_pin(lpwm_pin), _rpwm_pin(rpwm_pin)
+: lpwm_pin_(lpwm_pin), rpwm_pin_(rpwm_pin)
 {
     // init pwm
-    _l_slice_num = pwm_gpio_to_slice_num(_lpwm_pin);
-    _r_slice_num = pwm_gpio_to_slice_num(_rpwm_pin);
-    _l_channel = pwm_gpio_to_channel(_lpwm_pin);
-    _r_channel = pwm_gpio_to_channel(_rpwm_pin);
+    l_slice_num_ = pwm_gpio_to_slice_num(lpwm_pin_);
+    r_slice_num_ = pwm_gpio_to_slice_num(rpwm_pin_);
+    l_channel_ = pwm_gpio_to_channel(lpwm_pin_);
+    r_channel_ = pwm_gpio_to_channel(rpwm_pin_);
 
-    gpio_set_function(_lpwm_pin, GPIO_FUNC_PWM);
-    gpio_set_function(_rpwm_pin, GPIO_FUNC_PWM);
+    gpio_set_function(lpwm_pin_, GPIO_FUNC_PWM);
+    gpio_set_function(rpwm_pin_, GPIO_FUNC_PWM);
 
-    pwm_set_wrap(_l_slice_num, TOP);
-    pwm_set_wrap(_r_slice_num, TOP);
+    pwm_set_wrap(l_slice_num_, TOP);
+    pwm_set_wrap(r_slice_num_, TOP);
 
-    pwm_set_chan_level(_l_slice_num, _l_channel, 0);
-    pwm_set_chan_level(_r_slice_num, _r_channel, 0);
+    pwm_set_chan_level(l_slice_num_, l_channel_, 0);
+    pwm_set_chan_level(r_slice_num_, r_channel_, 0);
 
-    pwm_set_enabled(_l_slice_num, true);
-    pwm_set_enabled(_r_slice_num, true);
+    pwm_set_enabled(l_slice_num_, true);
+    pwm_set_enabled(r_slice_num_, true);
     //
 }
 
 void MotorBts7960::write_int16(int16_t pwm) const {
     if(pwm < 0) {
-        pwm_set_chan_level(_l_slice_num, _l_channel, abs(pwm));
-        pwm_set_chan_level(_r_slice_num, _r_channel, 0);
+        pwm_set_chan_level(l_slice_num_, l_channel_, abs(pwm));
+        pwm_set_chan_level(r_slice_num_, r_channel_, 0);
     } else {
-        pwm_set_chan_level(_l_slice_num, _l_channel, 0);
-        pwm_set_chan_level(_r_slice_num, _r_channel, pwm);
+        pwm_set_chan_level(l_slice_num_, l_channel_, 0);
+        pwm_set_chan_level(r_slice_num_, r_channel_, pwm);
     }
 }
 

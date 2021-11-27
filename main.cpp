@@ -2,7 +2,7 @@
 #include "pico/stdlib.h"
 #include "hardware/gpio.h"
 #include "minesweeper.h"
-#include "motor_bts7960.h"
+#include "serial_parser.h"
 #include "pins.h"
 
 MinesweeperPins pins = {
@@ -12,31 +12,46 @@ MinesweeperPins pins = {
         M4_LPWM_PIN, M4_RPWM_PIN
 };
 
-int main() {
+Minesweeper robot(pins, true);
+float linear_vel;
+float angular_vel;
+float left_level;
+float right_level;
+SerialParser parser('/', LED_PIN);
+
+void setup(){
     stdio_init_all();
     gpio_init(LED_PIN);
     gpio_set_dir(LED_PIN, GPIO_OUT);
-    MotorBts7960 motor1(M1_LPWM_PIN, M1_RPWM_PIN);
-    Minesweeper robot(pins, true);
+}
 
+bool timer_callback(repeating_timer * rt){
+    robot.drive(left_level, right_level);
+    return true;
+}
+void fail_routine()
+{
+    while (true)
+    {
+        gpio_put(LED_PIN, true);
+        sleep_ms(50);
+        gpio_put(LED_PIN, false);
+        sleep_ms(1500);
+    }
+}
+
+int main() {
+
+    setup();
+
+    repeating_timer_t timer;
+    int32_t sample_time_ms = 20;
+    if(!add_repeating_timer_ms(sample_time_ms, timer_callback, NULL, &timer)){
+        fail_routine();
+    }
+
+    printf("Hola bola!\n");
     while(true) {
-        gpio_put(LED_PIN, 0);
-        for(float i = 0.0f; i < 1.0f; i+=0.01f){
-            robot.drive(i, i);
-            sleep_ms(20);
-        }
-        for(float i = 1.0f; i > 0.0f; i-=0.01f){
-            robot.drive(i, i);
-            sleep_ms(20);
-        }
-        gpio_put(LED_PIN, 1);
-        for(float i = 0.0f; i < 1.0f; i+=0.01f){
-            robot.drive(-i, -i);
-            sleep_ms(20);
-        }
-        for(float i = 1.0f; i > 0.0f; i-=0.01f){
-            robot.drive(-i, -i);
-            sleep_ms(20);
-        }
+        parser.parse();
     }
 }

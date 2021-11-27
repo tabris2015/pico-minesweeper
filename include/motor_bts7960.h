@@ -18,12 +18,12 @@ public:
     void write(float duty_cycle) const;
 
 private:
-    uint _lpwm_pin;
-    uint _rpwm_pin;
-    uint _l_slice_num;
-    uint _l_channel;
-    uint _r_slice_num;
-    uint _r_channel;
+    uint lpwm_pin_;
+    uint rpwm_pin_;
+    uint l_slice_num_;
+    uint l_channel_;
+    uint r_slice_num_;
+    uint r_channel_;
 };
 
 

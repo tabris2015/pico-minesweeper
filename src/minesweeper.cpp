@@ -6,11 +6,11 @@
 
 Minesweeper::Minesweeper(MinesweeperPins pins, bool has_four_motors)
 :
-_pins(pins),
-_left_motor1(_pins.lm1_lpwm, _pins.lm1_rpwm),
-_right_motor1(_pins.rm1_lpwm, _pins.rm1_rpwm),
-_left_motor2(_pins.lm2_lpwm, _pins.lm2_rpwm),
-_right_motor2(_pins.rm2_lpwm, _pins.rm2_rpwm)
+pins_(pins),
+left_motor1_(pins_.lm1_lpwm, pins_.lm1_rpwm),
+right_motor1_(pins_.rm1_lpwm, pins_.rm1_rpwm),
+left_motor2_(pins_.lm2_lpwm, pins_.lm2_rpwm),
+right_motor2_(pins_.rm2_lpwm, pins_.rm2_rpwm)
 {
     drive(0, 0);
 }
@@ -18,16 +18,16 @@ _right_motor2(_pins.rm2_lpwm, _pins.rm2_rpwm)
 void Minesweeper::write_motor(MotorId motor_id, float duty_cycle) {
     switch (motor_id) {
         case MotorId::m1:
-            _left_motor1.write(duty_cycle);
+            left_motor1_.write(duty_cycle);
             break;
         case MotorId::m2:
-            _right_motor1.write(duty_cycle);
+            right_motor1_.write(duty_cycle);
             break;
         case MotorId::m3:
-            _left_motor2.write(duty_cycle);
+            left_motor2_.write(duty_cycle);
             break;
         case MotorId::m4:
-            _right_motor2.write(duty_cycle);
+            right_motor2_.write(duty_cycle);
             break;
         default:
             break;
@@ -35,10 +35,10 @@ void Minesweeper::write_motor(MotorId motor_id, float duty_cycle) {
 }
 
 void Minesweeper::drive(float left, float right) {
-    _left_motor1.write(left);
-    _right_motor1.write(right);
-    _left_motor2.write(left);
-    _right_motor2.write(right);
+    left_motor1_.write(left);
+    right_motor1_.write(right);
+    left_motor2_.write(left);
+    right_motor2_.write(right);
 }
 
 void Minesweeper::drive_unicycle(float v, float w) {

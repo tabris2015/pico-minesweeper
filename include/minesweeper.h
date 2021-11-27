@@ -45,11 +45,11 @@ public:
     void drive_unicycle(float v, float w);
 
 private:
-    MinesweeperPins _pins;
-    MotorBts7960 _left_motor1;
-    MotorBts7960 _right_motor1;
-    MotorBts7960 _left_motor2;
-    MotorBts7960 _right_motor2;
+    MinesweeperPins pins_;
+    MotorBts7960 left_motor1_;
+    MotorBts7960 right_motor1_;
+    MotorBts7960 left_motor2_;
+    MotorBts7960 right_motor2_;
 
 };
 
