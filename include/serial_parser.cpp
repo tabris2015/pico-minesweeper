@@ -13,15 +13,16 @@ ControlCommands SerialParser::parse() {
     ch_ = getchar_timeout_us(0);
     while (ch_ != PICO_ERROR_TIMEOUT){
         gpio_put(gpio_pin_, true);
-//        putchar(ch_);   // echo
         in_buffer_[ch_idx_++] = ch_;
-//        printf("\nbuffer: %s\n", in_buffer_);
         if(ch_ == end_token_){
             in_buffer_[ch_idx_] = 0;
-//            printf("\nreceived: %s\n", in_buffer_);
             ch_idx_ = 0;
-            value1_ = strtof(in_buffer_, &ch_ptr_);
-            value2_ = strtof(ch_ptr_ + 1, &ch_ptr2_);
+            commands_.linear = strtof(in_buffer_, &ch_ptr_);
+            commands_.angular = strtof(ch_ptr_ + 1, &ch_ptr2_);
+            commands_.arm_base = strtof(ch_ptr2_ + 1, &ch_ptr_);
+            commands_.arm_elbow = strtof(ch_ptr_ + 1, &ch_ptr2_);
+            commands_.magnet = strtol(ch_ptr2_ + 1, &ch_ptr_, 10);
+            commands_.alarm = strtol(ch_ptr_ + 1, &ch_ptr2_, 10);
             print_commands();
             break;
         }
@@ -33,5 +34,14 @@ ControlCommands SerialParser::parse() {
 }
 
 void SerialParser::print_commands() {
-    printf("%.3f, %.3f\n", value1_, value2_);
+    printf(
+            "parsed: [%f] [%f] [%f] [%f] [%d] [%d]\n",
+            commands_.linear,
+            commands_.angular,
+            commands_.arm_base,
+            commands_.arm_elbow,
+            commands_.magnet,
+            commands_.alarm
+            );
+
 }

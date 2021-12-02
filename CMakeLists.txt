@@ -14,7 +14,9 @@ add_executable(${PROJECT_NAME} main.cpp
         src/minesweeper.cpp
         include/minesweeper.h
         include/serial_parser.cpp
-        include/serial_parser.h)
+        include/serial_parser.h
+        src/dfrobot_dual.cpp
+        include/dfrobot_dual.h)
 
 target_include_directories(${PROJECT_NAME} PRIVATE include)
 

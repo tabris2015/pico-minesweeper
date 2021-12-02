@@ -15,4 +15,10 @@
 #define M4_LPWM_PIN 8
 #define M4_RPWM_PIN 9
 
+#define ARM_M1_EN_PIN 10
+#define ARM_M1_PWM_PIN 11
+#define ARM_M2_EN_PIN 12
+#define ARM_M2_PWM_PIN 13
+
+
 #endif //PICO_MINESWEEPER_PINS_H
