@@ -10,7 +10,8 @@ pins_(pins),
 left_motor1_(pins_.lm1_lpwm, pins_.lm1_rpwm),
 right_motor1_(pins_.rm1_lpwm, pins_.rm1_rpwm),
 left_motor2_(pins_.lm2_lpwm, pins_.lm2_rpwm),
-right_motor2_(pins_.rm2_lpwm, pins_.rm2_rpwm)
+right_motor2_(pins_.rm2_lpwm, pins_.rm2_rpwm),
+arm_(pins_.arm_base_en, pins_.arm_base_pwm, pins_.arm_elbow_en, pins_.arm_elbow_pwm, TOP)
 {
     drive(0, 0);
 }
@@ -51,6 +52,10 @@ void Minesweeper::drive_unicycle(float v, float w) {
     float v_r = (2 * v + w * ROBOT_WHEEL_SEPARATION) / (2 * ROBOT_WHEEL_RADIUS);
 
     drive(v_l, v_r);
+}
+
+void Minesweeper::write_arm(float base, float elbow) {
+    arm_.write(base, elbow);
 }
 
 

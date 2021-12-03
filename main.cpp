@@ -10,11 +10,12 @@ MinesweeperPins pins = {
         M1_LPWM_PIN, M1_RPWM_PIN,
         M2_LPWM_PIN, M2_RPWM_PIN,
         M3_LPWM_PIN, M3_RPWM_PIN,
-        M4_LPWM_PIN, M4_RPWM_PIN
+        M4_LPWM_PIN, M4_RPWM_PIN,
+        ARM_M1_EN_PIN, ARM_M1_PWM_PIN,
+        ARM_M2_EN_PIN, ARM_M2_PWM_PIN
 };
 
 Minesweeper robot(pins, true);
-DfRobotDual arm(ARM_M1_EN_PIN, ARM_M1_PWM_PIN, ARM_M2_EN_PIN, ARM_M2_PWM_PIN, 6143);
 float linear_vel;
 float angular_vel;
 float left_level;
@@ -30,7 +31,7 @@ void setup(){
 
 bool timer_callback(repeating_timer * rt){
     robot.drive_unicycle(commands.linear, commands.angular);
-    arm.write(0, 0);
+    robot.write_arm(0, 0);
     return true;
 }
 void fail_routine()
