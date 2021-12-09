@@ -40,7 +40,10 @@ struct MinesweeperPins{
     uint arm_base_pwm;
     uint arm_elbow_en;
     uint arm_elbow_pwm;
-
+    uint arm_left_end;
+    uint arm_right_end;
+    uint arm_up_end;
+    uint arm_down_end;
 };
 
 class Minesweeper {
@@ -58,7 +61,6 @@ private:
     MotorBts7960 left_motor2_;
     MotorBts7960 right_motor2_;
     DfRobotDual arm_;
-
 };
 
 

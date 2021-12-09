@@ -13,6 +13,22 @@ left_motor2_(pins_.lm2_lpwm, pins_.lm2_rpwm),
 right_motor2_(pins_.rm2_lpwm, pins_.rm2_rpwm),
 arm_(pins_.arm_base_en, pins_.arm_base_pwm, pins_.arm_elbow_en, pins_.arm_elbow_pwm, TOP)
 {
+    // init end sensors
+    gpio_init(pins_.arm_left_end);
+    gpio_init(pins_.arm_right_end);
+    gpio_init(pins_.arm_up_end);
+    gpio_init(pins_.arm_down_end);
+
+    gpio_set_dir(pins_.arm_left_end, GPIO_IN);
+    gpio_set_dir(pins_.arm_right_end, GPIO_IN);
+    gpio_set_dir(pins_.arm_up_end, GPIO_IN);
+    gpio_set_dir(pins_.arm_down_end, GPIO_IN);
+
+    gpio_pull_down(pins_.arm_left_end);
+    gpio_pull_down(pins_.arm_right_end);
+    gpio_pull_down(pins_.arm_up_end);
+    gpio_pull_down(pins_.arm_down_end);
+
     drive(0, 0);
 }
 
@@ -55,6 +71,12 @@ void Minesweeper::drive_unicycle(float v, float w) {
 }
 
 void Minesweeper::write_arm(float base, float elbow) {
+    // check if sensors are active
+    if (gpio_get(pins_.arm_left_end) || gpio_get(pins_.arm_right_end))
+        base = 0.0f;
+    if (gpio_get(pins_.arm_up_end) || gpio_get(pins_.arm_down_end))
+        elbow = 0.0f;
+
     arm_.write(base, elbow);
 }
 
