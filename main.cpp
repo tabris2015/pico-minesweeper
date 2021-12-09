@@ -2,7 +2,6 @@
 #include "pico/stdlib.h"
 #include "hardware/gpio.h"
 #include "minesweeper.h"
-#include "dfrobot_dual.h"
 #include "serial_parser.h"
 #include "pins.h"
 
@@ -30,8 +29,8 @@ void setup(){
 }
 
 bool timer_callback(repeating_timer * rt){
-    robot.drive_unicycle(commands.linear, commands.angular);
-    robot.write_arm(0, 0);
+    robot.print_state();
+    robot.write_commands(commands);
     return true;
 }
 void fail_routine()
@@ -50,7 +49,7 @@ int main() {
     setup();
 
     repeating_timer_t timer;
-    int32_t sample_time_ms = 20;
+    int32_t sample_time_ms = 10;
     if(!add_repeating_timer_ms(sample_time_ms, timer_callback, NULL, &timer)){
         fail_routine();
     }
@@ -58,6 +57,7 @@ int main() {
     printf("Hola bola!\n");
     while(true) {
         commands = parser.parse();
-        sleep_ms(1);
+
+        sleep_ms(5);
     }
 }

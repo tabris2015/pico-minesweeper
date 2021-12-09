@@ -16,7 +16,6 @@ struct ControlCommands{
     float arm_elbow;
     bool magnet;
     bool alarm;
-
 };
 
 

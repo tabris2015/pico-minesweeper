@@ -8,6 +8,7 @@
 #include "pico/stdlib.h"
 #include "motor_bts7960.h"
 #include "dfrobot_dual.h"
+#include "serial_parser.h"
 
 
 #define ROBOT_MAX_LINEAR_M_S 0.3f
@@ -44,6 +45,12 @@ struct MinesweeperPins{
     uint arm_right_end;
     uint arm_up_end;
     uint arm_down_end;
+    uint magnet;
+    uint alarm;
+};
+
+struct MinesweeperState{
+    bool is_mine_detected;
 };
 
 class Minesweeper {
@@ -53,7 +60,10 @@ public:
     void drive(float left, float right);
     void drive_unicycle(float v, float w);
     void write_arm(float base, float elbow);
-
+    void write_commands(ControlCommands commands);
+    void set_magnet(bool value);
+    void set_alarm(bool value);
+    void print_state(void);
 private:
     MinesweeperPins pins_;
     MotorBts7960 left_motor1_;
@@ -61,6 +71,7 @@ private:
     MotorBts7960 left_motor2_;
     MotorBts7960 right_motor2_;
     DfRobotDual arm_;
+    bool has_mine_;
 };
 
 

@@ -29,7 +29,18 @@ arm_(pins_.arm_base_en, pins_.arm_base_pwm, pins_.arm_elbow_en, pins_.arm_elbow_
     gpio_pull_down(pins_.arm_up_end);
     gpio_pull_down(pins_.arm_down_end);
 
+    // init actuators
+    gpio_init(pins_.magnet);
+    gpio_init(pins_.alarm);
+
+    gpio_set_dir(pins_.magnet, GPIO_OUT);
+    gpio_set_dir(pins_.alarm, GPIO_OUT);
+
+    set_magnet(false);
+    set_alarm(false);
+
     drive(0, 0);
+    write_arm(0, 0);
 }
 
 void Minesweeper::write_motor(MotorId motor_id, float duty_cycle) {
@@ -79,5 +90,25 @@ void Minesweeper::write_arm(float base, float elbow) {
 
     arm_.write(base, elbow);
 }
+
+void Minesweeper::write_commands(ControlCommands commands) {
+    drive_unicycle(commands.linear, commands.angular);
+    write_arm(commands.arm_base, commands.arm_elbow);
+    set_magnet(commands.magnet);
+    set_alarm(commands.alarm);
+}
+
+void Minesweeper::set_magnet(bool value) {
+    gpio_put(pins_.magnet, value);
+}
+
+void Minesweeper::set_alarm(bool value) {
+    gpio_put(pins_.alarm, value);
+}
+
+void Minesweeper::print_state(void) {
+    printf("%d\n", has_mine_);
+}
+
 
 
