@@ -9,6 +9,7 @@ SerialParser::SerialParser(const char end_token, uint gpio_pin)
 
 }
 
+// Command linear, angular, arm_base, arm_elbow, magnet, alarm /
 ControlCommands SerialParser::parse() {
     ch_ = getchar_timeout_us(0);
     while (ch_ != PICO_ERROR_TIMEOUT){
