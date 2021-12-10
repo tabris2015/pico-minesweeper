@@ -33,15 +33,19 @@ DfRobotDual::DfRobotDual(uint m1_en_pin, uint m1_pwm_pin, uint m2_en_pin, uint m
 
 void DfRobotDual::write_int16(int16_t level1, int16_t level2) {
     if(level1 < 0) {
-        pwm_set_chan_level(m1_slice_num_, m1_channel_, -level1);
+        gpio_put(m1_en_pin_, true);
+        pwm_set_chan_level(m1_slice_num_, m1_channel_, abs(level1));
     } else {
-        pwm_set_chan_level(m1_slice_num_, m1_channel_, 0);
+        gpio_put(m1_en_pin_, false);
+        pwm_set_chan_level(m1_slice_num_, m1_channel_, level1);
     }
 
     if(level2 < 0) {
-        pwm_set_chan_level(m2_slice_num_, m2_channel_, -level2);
+        gpio_put(m2_en_pin_, true);
+        pwm_set_chan_level(m2_slice_num_, m2_channel_, abs(level2));
     } else {
-        pwm_set_chan_level(m2_slice_num_, m2_channel_, 0);
+        gpio_put(m2_en_pin_, false);
+        pwm_set_chan_level(m2_slice_num_, m2_channel_, level2);
     }
 }
 

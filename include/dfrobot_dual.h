@@ -6,6 +6,7 @@
 #define PICO_MINESWEEPER_DFROBOT_DUAL_H
 
 #include "pico/stdlib.h"
+#include <cmath>
 #include "hardware/pwm.h"
 
 class DfRobotDual {
