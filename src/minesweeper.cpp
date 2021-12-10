@@ -92,6 +92,11 @@ void Minesweeper::write_arm(float base, float elbow) {
 }
 
 void Minesweeper::write_commands(ControlCommands commands) {
+    // read sensors
+    left_sensor_ = gpio_get(pins_.arm_left_end);
+    right_sensor_ = gpio_get(pins_.arm_right_end);
+    up_sensor_ = gpio_get(pins_.arm_up_end);
+    down_sensor_ = gpio_get(pins_.arm_down_end);
     drive_unicycle(commands.linear, commands.angular);
     write_arm(commands.arm_base, commands.arm_elbow);
     set_magnet(commands.magnet);
@@ -107,7 +112,7 @@ void Minesweeper::set_alarm(bool value) {
 }
 
 void Minesweeper::print_state(void) {
-    printf("%d\n", has_mine_);
+    printf("m: %d \tsensors: [%d, %d, %d, %d]\n", has_mine_, left_sensor_, right_sensor_, up_sensor_, down_sensor_);
 }
 
 

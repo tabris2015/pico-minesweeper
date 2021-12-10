@@ -72,6 +72,11 @@ private:
     MotorBts7960 right_motor2_;
     DfRobotDual arm_;
     bool has_mine_;
+    bool left_sensor_;
+    bool right_sensor_;
+    bool up_sensor_;
+    bool down_sensor_;
+
 };
 
 
