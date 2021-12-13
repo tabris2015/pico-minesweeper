@@ -6,14 +6,14 @@
 #define PICO_MINESWEEPER_PINS_H
 
 #define LED_PIN 25
-#define M1_LPWM_PIN 0
-#define M1_RPWM_PIN 1
-#define M2_LPWM_PIN 2
-#define M2_RPWM_PIN 3
+#define M1_LPWM_PIN 1
+#define M1_RPWM_PIN 0
+#define M2_LPWM_PIN 3
+#define M2_RPWM_PIN 2
 #define M3_LPWM_PIN 4
 #define M3_RPWM_PIN 5
-#define M4_LPWM_PIN 6
-#define M4_RPWM_PIN 7
+#define M4_LPWM_PIN 7
+#define M4_RPWM_PIN 6
 
 #define ARM_M1_EN_PIN 10
 #define ARM_M1_PWM_PIN 11

@@ -29,14 +29,14 @@ enum MotorId{
 };
 
 struct MinesweeperPins{
-    uint lm1_lpwm;
-    uint lm1_rpwm;
     uint rm1_lpwm;
     uint rm1_rpwm;
-    uint lm2_lpwm;
-    uint lm2_rpwm;
     uint rm2_lpwm;
     uint rm2_rpwm;
+    uint lm2_lpwm;
+    uint lm2_rpwm;
+    uint lm1_lpwm;
+    uint lm1_rpwm;
     uint arm_base_en;
     uint arm_base_pwm;
     uint arm_elbow_en;
