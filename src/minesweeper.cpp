@@ -112,7 +112,7 @@ void Minesweeper::set_alarm(bool value) {
 }
 
 void Minesweeper::print_state(void) {
-    printf("m: %d \tsensors: [%d, %d, %d, %d]\n", has_mine_, left_sensor_, right_sensor_, up_sensor_, down_sensor_);
+    printf("%d,%d,%d,%d,%d", has_mine_, left_sensor_, right_sensor_, up_sensor_, down_sensor_);
 }
 
 

@@ -32,7 +32,6 @@ void setup(){
 }
 
 bool timer_callback(repeating_timer * rt){
-    robot.print_state();
     robot.write_commands(commands);
     return true;
 }
@@ -59,8 +58,8 @@ int main() {
 
     printf("Hola bola!\n");
     while(true) {
-        commands = parser.parse();
-
+        auto parse_success = parser.parse(commands);
+        if(parse_success) robot.print_state();
         sleep_ms(5);
     }
 }

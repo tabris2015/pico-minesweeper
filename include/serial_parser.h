@@ -22,7 +22,7 @@ struct ControlCommands{
 class SerialParser {
 public:
     SerialParser(const char end_token, uint gpio_pin);
-    ControlCommands parse();
+    bool parse(ControlCommands& commands);
     void print_state();
     void print_commands();
 

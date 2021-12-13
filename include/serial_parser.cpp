@@ -10,7 +10,7 @@ SerialParser::SerialParser(const char end_token, uint gpio_pin)
 }
 
 // Command linear, angular, arm_base, arm_elbow, magnet, alarm /
-ControlCommands SerialParser::parse() {
+bool SerialParser::parse(ControlCommands& commands) {
     ch_ = getchar_timeout_us(0);
     while (ch_ != PICO_ERROR_TIMEOUT){
         gpio_put(gpio_pin_, true);
@@ -18,20 +18,21 @@ ControlCommands SerialParser::parse() {
         if(ch_ == end_token_){
             in_buffer_[ch_idx_] = 0;
             ch_idx_ = 0;
-            commands_.linear = strtof(in_buffer_, &ch_ptr_);
-            commands_.angular = strtof(ch_ptr_ + 1, &ch_ptr2_);
-            commands_.arm_base = strtof(ch_ptr2_ + 1, &ch_ptr_);
-            commands_.arm_elbow = strtof(ch_ptr_ + 1, &ch_ptr2_);
-            commands_.magnet = strtol(ch_ptr2_ + 1, &ch_ptr_, 10);
-            commands_.alarm = strtol(ch_ptr_ + 1, &ch_ptr2_, 10);
-            print_commands();
-            break;
+            commands.linear = strtof(in_buffer_, &ch_ptr_);
+            commands.angular = strtof(ch_ptr_ + 1, &ch_ptr2_);
+            commands.arm_base = strtof(ch_ptr2_ + 1, &ch_ptr_);
+            commands.arm_elbow = strtof(ch_ptr_ + 1, &ch_ptr2_);
+            commands.magnet = strtol(ch_ptr2_ + 1, &ch_ptr_, 10);
+            commands.alarm = strtol(ch_ptr_ + 1, &ch_ptr2_, 10);
+//            print_commands();
+            gpio_put(gpio_pin_, false);
+            return true;
         }
         ch_ = getchar_timeout_us(0);
     }
     gpio_put(gpio_pin_, false);
 
-    return commands_;
+    return false;
 }
 
 void SerialParser::print_commands() {
