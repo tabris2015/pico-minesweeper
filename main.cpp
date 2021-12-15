@@ -14,7 +14,8 @@ MinesweeperPins pins = {
         ARM_M2_EN_PIN, ARM_M2_PWM_PIN,
         ARM_LEFT_PIN, ARM_RIGHT_PIN,
         ARM_UP_PIN, ARM_DOWN_PIN,
-        MAGNET_PIN, ALARM_PIN
+        MAGNET_PIN, ALARM_PIN,
+        SENSOR_PIN
 };
 
 Minesweeper robot(pins, true);

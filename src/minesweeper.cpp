@@ -13,6 +13,11 @@ left_motor2_(pins_.lm2_lpwm, pins_.lm2_rpwm),
 right_motor2_(pins_.rm2_lpwm, pins_.rm2_rpwm),
 arm_(pins_.arm_base_en, pins_.arm_base_pwm, pins_.arm_elbow_en, pins_.arm_elbow_pwm, TOP)
 {
+    // init metal detector
+    adc_init();
+    adc_gpio_init(pins_.sensor);
+    adc_select_input(get_adc_input(pins_.sensor));
+
     // init end sensors
     gpio_init(pins_.arm_left_end);
     gpio_init(pins_.arm_right_end);
@@ -101,6 +106,11 @@ void Minesweeper::write_commands(ControlCommands commands) {
     write_arm(commands.arm_base, commands.arm_elbow);
     set_magnet(commands.magnet);
     set_alarm(commands.alarm);
+    if(get_mine()){
+        gpio_put(pins_.alarm, true);
+    } else {
+        gpio_put(pins_.alarm, false);
+    }
 }
 
 void Minesweeper::set_magnet(bool value) {
@@ -112,7 +122,24 @@ void Minesweeper::set_alarm(bool value) {
 }
 
 void Minesweeper::print_state(void) {
-    printf("%d,%d,%d,%d,%d", has_mine_, left_sensor_, right_sensor_, up_sensor_, down_sensor_);
+    printf("%d,%.2f,%d,%d,%d,%d", state_.is_mine_detected, state_.sensor_voltage ,left_sensor_, right_sensor_, up_sensor_, down_sensor_);
+}
+
+uint Minesweeper::get_adc_input(uint pin) {
+    switch (pin) {
+        case 26:    return 0;
+        case 27:    return 1;
+        case 28:    return 2;
+        default:    return 0;
+    }
+}
+
+bool Minesweeper::get_mine() {
+    const float factor = 3.3f / (1 << 12);
+    uint16_t result = adc_read();
+    state_.sensor_voltage = result * factor;
+    state_.is_mine_detected = state_.sensor_voltage > 1.1f;
+    return state_.is_mine_detected;
 }
 
 

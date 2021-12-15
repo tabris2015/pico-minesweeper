@@ -6,6 +6,7 @@
 #define PICO_MINESWEEPER_MINESWEEPER_H
 
 #include "pico/stdlib.h"
+#include "hardware/adc.h"
 #include "motor_bts7960.h"
 #include "dfrobot_dual.h"
 #include "serial_parser.h"
@@ -47,10 +48,12 @@ struct MinesweeperPins{
     uint arm_down_end;
     uint magnet;
     uint alarm;
+    uint sensor;
 };
 
 struct MinesweeperState{
     bool is_mine_detected;
+    float sensor_voltage;
 };
 
 class Minesweeper {
@@ -63,6 +66,7 @@ public:
     void write_commands(ControlCommands commands);
     void set_magnet(bool value);
     void set_alarm(bool value);
+    bool get_mine();
     void print_state(void);
 private:
     MinesweeperPins pins_;
@@ -76,6 +80,8 @@ private:
     bool right_sensor_;
     bool up_sensor_;
     bool down_sensor_;
+    MinesweeperState state_;
+    uint get_adc_input(uint pin);
 
 };
 

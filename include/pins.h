@@ -28,6 +28,7 @@
 #define MAGNET_PIN 16
 #define ALARM_PIN 17
 
+#define SENSOR_PIN 26
 
 
 #endif //PICO_MINESWEEPER_PINS_H
