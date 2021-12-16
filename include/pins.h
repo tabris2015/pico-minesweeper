@@ -22,8 +22,8 @@
 
 #define ARM_LEFT_PIN 18
 #define ARM_RIGHT_PIN 19
-#define ARM_UP_PIN 20
-#define ARM_DOWN_PIN 21
+#define ARM_UP_PIN 21
+#define ARM_DOWN_PIN 20
 
 #define MAGNET_PIN 16
 #define ALARM_PIN 17

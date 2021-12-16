@@ -90,7 +90,9 @@ void Minesweeper::write_arm(float base, float elbow) {
     // check if sensors are active
     if (gpio_get(pins_.arm_left_end) || gpio_get(pins_.arm_right_end))
         base = 0.0f;
-    if (gpio_get(pins_.arm_up_end) || gpio_get(pins_.arm_down_end))
+
+    if ((gpio_get(pins_.arm_up_end) && elbow > 0) ||
+        (gpio_get(pins_.arm_up_end) && elbow < 0))
         elbow = 0.0f;
 
     arm_.write(base, elbow);
@@ -138,7 +140,7 @@ bool Minesweeper::get_mine() {
     const float factor = 3.3f / (1 << 12);
     uint16_t result = adc_read();
     state_.sensor_voltage = result * factor;
-    state_.is_mine_detected = state_.sensor_voltage > 1.1f;
+    state_.is_mine_detected = state_.sensor_voltage > 2.45f;
     return state_.is_mine_detected;
 }
 
