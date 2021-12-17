@@ -140,7 +140,14 @@ bool Minesweeper::get_mine() {
     const float factor = 3.3f / (1 << 12);
     uint16_t result = adc_read();
     state_.sensor_voltage = result * factor;
+    // remember last 2 measures
+    mine_t_2 = mine_t_1;
+    mine_t_1 = state_.is_mine_detected;
     state_.is_mine_detected = state_.sensor_voltage > 2.45f;
+
+    if(mine_t_2 || mine_t_1)
+        state_.is_mine_detected = true;
+
     return state_.is_mine_detected;
 }
 

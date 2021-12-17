@@ -80,6 +80,8 @@ private:
     bool right_sensor_;
     bool up_sensor_;
     bool down_sensor_;
+    bool mine_t_1;
+    bool mine_t_2;
     MinesweeperState state_;
     uint get_adc_input(uint pin);
 

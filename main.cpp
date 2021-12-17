@@ -19,10 +19,6 @@ MinesweeperPins pins = {
 };
 
 Minesweeper robot(pins, true);
-float linear_vel;
-float angular_vel;
-float left_level;
-float right_level;
 SerialParser parser('/', LED_PIN);
 ControlCommands commands;
 
