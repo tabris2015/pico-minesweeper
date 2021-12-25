@@ -124,7 +124,7 @@ void Minesweeper::set_alarm(bool value) {
 }
 
 void Minesweeper::print_state(void) {
-    printf("%d,%.2f,%d,%d,%d,%d", state_.is_mine_detected, state_.sensor_voltage ,left_sensor_, right_sensor_, up_sensor_, down_sensor_);
+    printf("(%d)[%d %d %d],%.2f,%d,%d,%d,%d", state_.is_mine_detected, mine_t_0, mine_t_1, mine_t_2, state_.sensor_voltage ,left_sensor_, right_sensor_, up_sensor_, down_sensor_);
 }
 
 uint Minesweeper::get_adc_input(uint pin) {
@@ -142,11 +142,13 @@ bool Minesweeper::get_mine() {
     state_.sensor_voltage = result * factor;
     // remember last 2 measures
     mine_t_2 = mine_t_1;
-    mine_t_1 = state_.is_mine_detected;
-    state_.is_mine_detected = state_.sensor_voltage > 2.45f;
+    mine_t_1 = mine_t_0;
+    mine_t_0 = state_.sensor_voltage > 2.45f;
 
-    if(mine_t_2 || mine_t_1)
+    if(mine_t_2 || mine_t_1 || mine_t_0)
         state_.is_mine_detected = true;
+    else if (!mine_t_2 && !mine_t_1 && !mine_t_0)
+        state_.is_mine_detected = false;
 
     return state_.is_mine_detected;
 }
